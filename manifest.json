@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Subtitle Masker Extension",
   "description": "Mask hardcoded subtitles on videos with adjustable overlays.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "permissions": ["storage", "tabs"],
   "host_permissions": ["<all_urls>"],
   "background": {
@@ -11,6 +11,14 @@
   "action": {
     "default_popup": "src/popup/popup.html",
     "default_title": "Subtitle Masker"
+  },
+  "commands": {
+    "toggle-mask": {
+      "suggested_key": {
+        "default": "Alt+M"
+      },
+      "description": "Toggle subtitle mask on current page"
+    }
   },
   "content_scripts": [
     {

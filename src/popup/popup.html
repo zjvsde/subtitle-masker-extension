@@ -10,6 +10,7 @@
     <main class="popup">
       <h1>Subtitle Masker</h1>
       <p id="status" class="status">正在检测当前页面视频...</p>
+      <p class="hint">快捷键：<strong>Alt + M</strong>（快速开关）</p>
 
       <label class="row">
         <span>启用遮罩</span>
@@ -40,7 +41,17 @@
         <input id="blur" type="range" min="0" max="40" step="1" value="12" />
       </label>
 
-      <button id="reset" type="button">重置遮罩区域</button>
+      <section class="masks">
+        <div class="row masks-head">
+          <span>遮罩列表</span>
+          <button id="addMask" type="button" class="small">新增遮罩</button>
+        </div>
+        <div id="maskList" class="mask-list"></div>
+      </section>
+
+      <div class="actions">
+        <button id="reset" type="button">重置当前遮罩</button>
+      </div>
     </main>
 
     <script src="./popup.js"></script>

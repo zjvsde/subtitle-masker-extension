@@ -8,7 +8,7 @@ body {
 }
 
 .popup {
-  width: 280px;
+  width: 300px;
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -20,10 +20,11 @@ h1 {
   font-size: 16px;
 }
 
-.status {
+.status,
+.hint {
   margin: 0;
   font-size: 12px;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .row,
@@ -50,4 +51,49 @@ input[type="range"] {
 button {
   cursor: pointer;
   padding: 6px 8px;
+  border: 1px solid rgba(120, 120, 120, 0.35);
+  border-radius: 6px;
+  background: transparent;
+}
+
+button.small {
+  width: auto;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+.masks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mask-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 140px;
+  overflow-y: auto;
+}
+
+.mask-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.mask-item button {
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+.mask-item .active-tag {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
 }
