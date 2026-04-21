@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Subtitle Masker</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <h1>Subtitle Masker</h1>
+      <p id="status" class="status">正在检测当前页面视频...</p>
+
+      <label class="row">
+        <span>启用遮罩</span>
+        <input id="enabled" type="checkbox" />
+      </label>
+
+      <label class="column">
+        <span>遮罩样式</span>
+        <select id="style">
+          <option value="solid">纯色</option>
+          <option value="blur">模糊</option>
+          <option value="custom">自定义颜色</option>
+        </select>
+      </label>
+
+      <label class="row" id="colorRow">
+        <span>颜色</span>
+        <input id="color" type="color" value="#000000" />
+      </label>
+
+      <label class="column">
+        <span>透明度</span>
+        <input id="opacity" type="range" min="0" max="1" step="0.05" value="0.8" />
+      </label>
+
+      <label class="column" id="blurRow">
+        <span>模糊强度</span>
+        <input id="blur" type="range" min="0" max="40" step="1" value="12" />
+      </label>
+
+      <button id="reset" type="button">重置遮罩区域</button>
+    </main>
+
+    <script src="./popup.js"></script>
+  </body>
+</html>
