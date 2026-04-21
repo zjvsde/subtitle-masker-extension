@@ -711,7 +711,7 @@
     return {
       hasVideo: !!activeVideo,
       config: currentConfig,
-      shortcut: "Alt+S"
+      shortcut: "Alt+Shift+S"
     };
   }
 
@@ -854,7 +854,7 @@
       return;
     }
 
-    if (!(event.altKey && !event.metaKey && !event.ctrlKey && !event.shiftKey)) {
+    if (!(event.altKey && event.shiftKey && !event.metaKey && !event.ctrlKey)) {
       return;
     }
 
