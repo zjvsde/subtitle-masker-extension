@@ -440,7 +440,7 @@
     return `rgba(${r}, ${g}, ${b}, ${Math.max(0, Math.min(1, alpha))})`;
   }
 
-  function applyOverlayStyle(overlay) {
+  function applyOverlayStyle(overlay, isActive) {
     if (!currentConfig) {
       return;
     }
@@ -458,6 +458,16 @@
       const targetColor = style === "custom" ? color : "#000000";
       overlay.style.background = hexToRgba(targetColor, opacity);
     }
+
+    const borderColor = style === "custom" ? color : "#000000";
+    overlay.style.border = isActive
+      ? "2px solid rgba(83, 174, 255, 0.95)"
+      : `1px solid ${hexToRgba(borderColor, Math.min(1, Math.max(0.45, opacity + 0.2)))}`;
+
+    const handles = overlay.querySelectorAll(".subtitle-masker-handle");
+    handles.forEach((handle) => {
+      handle.style.border = `1px solid ${borderColor}`;
+    });
   }
 
   function renderMask(mask, videoRect) {
@@ -473,15 +483,12 @@
     overlay.style.height = `${rectPx.height}px`;
 
     const isActive = mask.id === currentConfig.activeMaskId;
-    overlay.style.border = isActive
-      ? "2px solid rgba(83, 174, 255, 0.95)"
-      : "1px solid rgba(255,255,255,0.8)";
 
     for (const handle of Object.values(overlayNode.handles)) {
       handle.style.display = isActive ? "block" : "none";
     }
 
-    applyOverlayStyle(overlay);
+    applyOverlayStyle(overlay, isActive);
   }
 
   function renderOverlaySet() {
@@ -704,7 +711,7 @@
     return {
       hasVideo: !!activeVideo,
       config: currentConfig,
-      shortcut: "Alt+M"
+      shortcut: "Alt+S"
     };
   }
 
@@ -851,7 +858,7 @@
       return;
     }
 
-    if (String(event.key).toLowerCase() !== "m") {
+    if (String(event.key).toLowerCase() !== "s") {
       return;
     }
 

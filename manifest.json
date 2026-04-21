@@ -15,7 +15,7 @@
   "commands": {
     "toggle-mask": {
       "suggested_key": {
-        "default": "Alt+M"
+        "default": "Alt+S"
       },
       "description": "Toggle subtitle mask on current page"
     }
