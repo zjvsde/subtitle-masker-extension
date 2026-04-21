@@ -3,7 +3,7 @@
   "name": "Subtitle Masker Extension",
   "description": "Mask hardcoded subtitles on videos with adjustable overlays.",
   "version": "0.2.0",
-  "permissions": ["storage", "tabs"],
+  "permissions": ["storage", "tabs", "webNavigation"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "src/background/background.js"
