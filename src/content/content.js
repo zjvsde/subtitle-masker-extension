@@ -386,6 +386,23 @@
       onOverlayPointerDown(event, maskId);
     });
 
+    overlay.addEventListener("pointerenter", () => {
+      const isActive = currentConfig?.activeMaskId === maskId;
+      if (!isActive) {
+        return;
+      }
+
+      Object.values(handles).forEach((handle) => {
+        handle.style.display = "block";
+      });
+    });
+
+    overlay.addEventListener("pointerleave", () => {
+      Object.values(handles).forEach((handle) => {
+        handle.style.display = "none";
+      });
+    });
+
     mountOverlayToCurrentHost(overlay);
 
     overlayMap.set(maskId, {
@@ -483,7 +500,7 @@
     const isActive = mask.id === currentConfig.activeMaskId;
 
     for (const handle of Object.values(overlayNode.handles)) {
-      handle.style.display = isActive ? "block" : "none";
+      handle.style.display = "none";
     }
 
     applyOverlayStyle(overlay, isActive);
