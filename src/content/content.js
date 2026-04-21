@@ -460,9 +460,7 @@
     }
 
     const borderColor = style === "custom" ? color : "#000000";
-    overlay.style.border = isActive
-      ? "2px solid rgba(83, 174, 255, 0.95)"
-      : `1px solid ${hexToRgba(borderColor, Math.min(1, Math.max(0.45, opacity + 0.2)))}`;
+    overlay.style.border = `1px solid ${hexToRgba(borderColor, Math.min(1, Math.max(0.45, opacity + 0.2)))}`;
 
     const handles = overlay.querySelectorAll(".subtitle-masker-handle");
     handles.forEach((handle) => {
