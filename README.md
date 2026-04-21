@@ -9,6 +9,7 @@ A Chrome extension that places an adjustable overlay on any web video to block h
 - Drag to move and resize the mask directly on the video
 - Three mask styles: solid colour / blur / custom colour with opacity
 - Configuration saved per video page URL, restored on next visit
+- Domain-level fallback: if a page has no saved config yet, it inherits the latest config from the same site
 - Full-screen and SPA navigation supported
 
 ## Installation
@@ -36,6 +37,7 @@ A Chrome extension that places an adjustable overlay on any web video to block h
    - Adjust opacity and blur intensity with the sliders.
    - Click **重置遮罩区域** to restore the default position.
 6. All settings are saved automatically for that video page URL.
+7. If a new page on the same domain has no page-level config yet, it will auto-inherit your latest domain-level settings.
 
 ## Project Structure
 
@@ -62,7 +64,7 @@ subtitle-masker-extension/
 
 - [ ] Smoother resize handle interactions
 - [ ] Keyboard shortcut to toggle mask on/off
-- [ ] Domain-level fallback config (apply saved settings to all videos on a site)
+- [x] Domain-level fallback config (apply saved settings to all videos on a site)
 - [ ] Heuristic subtitle region detection (auto-fit the mask to the actual subtitle area)
 - [ ] Firefox / Edge compatibility
 - [ ] Chrome Web Store release

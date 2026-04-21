@@ -1,5 +1,6 @@
 (() => {
   const STORAGE_PREFIX = "maskConfig:";
+  const DOMAIN_PREFIX = "domainConfig:";
   const MIN_WIDTH_PCT = 0.05;
   const MIN_HEIGHT_PCT = 0.05;
 
@@ -63,22 +64,64 @@
     return `${STORAGE_PREFIX}${normalizeUrl(window.location.href)}`;
   }
 
+  function getStorageKeyForDomain() {
+    try {
+      return `${DOMAIN_PREFIX}${new URL(window.location.href).hostname}`;
+    } catch (_error) {
+      return null;
+    }
+  }
+
   async function loadConfigForPage() {
-    const key = getStorageKeyForPage();
-    const data = await chrome.storage.local.get(key);
-    return data[key] || null;
+    const pageKey = getStorageKeyForPage();
+    const domainKey = getStorageKeyForDomain();
+
+    const keys = domainKey ? [pageKey, domainKey] : [pageKey];
+    const data = await chrome.storage.local.get(keys);
+
+    if (data[pageKey]) {
+      return { config: data[pageKey], source: "page" };
+    }
+
+    if (domainKey && data[domainKey]) {
+      return { config: data[domainKey], source: "domain" };
+    }
+
+    return null;
   }
 
   async function saveConfigForPage(config) {
-    const key = getStorageKeyForPage();
+    const pageKey = getStorageKeyForPage();
+    const domainKey = getStorageKeyForDomain();
+
     const normalized = normalizeConfig({
       ...config,
       updatedAt: Date.now()
     });
 
-    await chrome.storage.local.set({ [key]: normalized });
+    const writes = { [pageKey]: normalized };
+    if (domainKey) {
+      writes[domainKey] = normalized;
+    }
+
+    await chrome.storage.local.set(writes);
     currentConfig = normalized;
     return normalized;
+  }
+
+  function cloneConfigWithFreshMaskIds(rawConfig) {
+    const normalized = normalizeConfig(rawConfig);
+    const remappedMasks = normalized.masks.map((mask) => ({
+      ...mask,
+      id: crypto.randomUUID()
+    }));
+
+    return {
+      ...normalized,
+      masks: remappedMasks,
+      activeMaskId: remappedMasks[0]?.id || null,
+      updatedAt: Date.now()
+    };
   }
 
   function normalizeConfig(rawConfig) {
@@ -666,8 +709,20 @@
   }
 
   async function ensureConfigLoaded() {
-    const loaded = await loadConfigForPage();
-    currentConfig = normalizeConfig(loaded);
+    const result = await loadConfigForPage();
+
+    if (!result) {
+      currentConfig = createDefaultConfig();
+      return;
+    }
+
+    if (result.source === "page") {
+      currentConfig = normalizeConfig(result.config);
+    } else {
+      // domain fallback: inherit style/params but assign fresh mask IDs
+      // so this page's config is independent of other pages on the same domain
+      currentConfig = cloneConfigWithFreshMaskIds(result.config);
+    }
   }
 
   async function resetActiveMask() {
